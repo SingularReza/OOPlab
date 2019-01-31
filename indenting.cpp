@@ -8,8 +8,8 @@ int main() {
     string line, temp = "";
     int len;
 
-    ifstream input("./testfile.cpp");
-    ofstream output("./outfile.cpp");
+    ifstream input("./input.txt");
+    ofstream output("./outfile.txt");
 
     while(getline(input, line)) {
         len = line.length() - 2;
@@ -18,6 +18,9 @@ int main() {
             temp = temp + "    ";
         }
         output<<line;
+        if(line[len]=='}') {
+            temp = temp.erase(len, len-4);
+        }
     }
     return 0;
 }
