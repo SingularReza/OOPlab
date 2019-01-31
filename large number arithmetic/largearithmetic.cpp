@@ -8,18 +8,10 @@ using namespace std;
 class Arithmetic {
 
     private:
-        string input1;
-        string input2;
         string output;
 
     public:
-        //sets input values
-        void input(string in1, string in2) {
-            input1 = in1;
-            input2 = in2;
-        }
-
-        string add() {
+        string add(string input1, string input2) {
             //no adds 0 to smaller string to make their length equal
             int no = 0, no1, no2;
             //string length
@@ -48,7 +40,7 @@ class Arithmetic {
             }
             no = 0;
             cout<<output<<endl;
-            while(len1>=1) {
+            while(len1>=0) {
                 no1 = input1[len1] - '0';
                 no2 = input2[len1] - '0';
 
@@ -72,11 +64,11 @@ class Arithmetic {
             return output;
         };
 
-        string sub() {
+        string sub(string input1, string input2) {
             //no adds 0 to smaller string to make their length equal
             int no = 0, no1, no2;
             //string length
-            int len1 = input1.length()-2;
+            int len1 = input1.length()-1;
             int len2 = input2.length()-1;
             no = len1-len2;
 
@@ -104,8 +96,8 @@ class Arithmetic {
                 len1 = len2;
             }
             no = 0;
-            cout<<output<<endl;
-            while(len1>=1) {
+
+            while(len1>=0) {
                 no1 = input1[len1] - '0';
                 no2 = input2[len1] - '0';
 
@@ -129,31 +121,53 @@ class Arithmetic {
             return output;
         };
 
-        string factorial() {
-            int temp = stoi(input2);//turn this into int
-            int temp2 = temp;
-            while(temp) {
-                while(temp2-1) {
-                    input1 = add();
-                    temp2--;
-                    cout<<input1<<endl;
+        string multiply(string input1, string input2) {
+            output="0";
+            string temp="",temp2 = "";
+            int no = 0, no1, no2;
+
+            int len1 = input1.length()-2;
+            int len2 = input2.length()-1;
+
+            while(len2>=0) {
+                no1 = input1[len1] - '0';
+                while(len1>=1) {
+                    no2 = input2[len2] - '0';
+                    no = (no1*no2)+no;
+                    no1 = no%10;
+                    no = no/10;
+                    temp = to_string(no1)+temp;
+                    len1--;
                 }
-                temp--;
+                output = add(output, temp);
+                temp2 = temp2+"0";
+                temp = temp+temp2; 
+                len2--;
             }
-            return input1;
+
+            return output;
         };
 }; 
 
 int main() {
     string line1, line2;
+    int choice;
     ifstream inputfile("./inputfile.txt");
     Arithmetic calc;
     getline(inputfile, line1);
     getline(inputfile, line2);
-
-    calc.input(line1, line2);
     
-    cout<<calc.add()<<endl;
+    cout<<"1.add, 2.subtract. 3.multiply"<<endl;
+    cin>>choice;
+
+    switch(choice) {
+        case 1: cout<<calc.add(line1, line2)<<endl;
+                break;
+        case 2: cout<<calc.sub(line1, line2)<<endl;
+                break;
+        case 3: cout<<calc.multiply(line1, line2)<<endl;
+                break;
+    }
 
     return 0;
 }
