@@ -14,13 +14,15 @@ int main() {
     while(getline(input, line)) {
         len = line.length() - 2;
         line = temp + line;
-        if(line[len]=='{') {
+        if(len>=0) {
+            if(line[len]=='{') {
             temp = temp + "    ";
+            }
+            if(line[len]=='}') {
+                temp = temp.erase(len, len-4);
+            }
         }
-        output<<line;
-        if(line[len]=='}') {
-            temp = temp.erase(len, len-4);
-        }
+        output<<line<<endl;
     }
     return 0;
 }
