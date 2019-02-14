@@ -1,55 +1,102 @@
-#include <iostream>
+/*
+   Chandan Chowdary
+   17CS8028
+ */
+
+#include<iostream>
+
+#include<cstdlib>
+
+#define ll long long
 
 using namespace std;
 
-void insert(int k, int **table, int count) {
-    int row[2];
-    row[0] = k%10;
-    row[1] = k;
-    table[count] = &row[0];
-};
 
-void search(int k, int **table) {
-    int i = 0;
+int main()
 
-    while(i <= 2) {
-        int *row = table[i];
-        cout<<&row<<endl;
-        /*if(table[i][1] == k) {
-            cout<<"Found"<<endl;
-        }*/
-        i++;
-    }
-};
+{
 
-void print(int **table) {
+	srand(time(0));
 
-};
+	ll int batch_misses[6];
 
-void del(int k, int **table) {
 
-};
+	for(int num=20;num<=100;num+=20)
 
-int main() {
-    int input, i = 0, choice = 1;
-    int **p;
+	{
 
-    while(choice) {
-        cout<<"Enter a value"<<endl;
-        cin>>input;
 
-        p = (int **)malloc(sizeof(int *)*(i+1)*4);
+		int hashtable[100];
 
-        insert(input, p, i);
-        i++;
 
-        cout<<"1.continue 0. exit"<<endl;
-        cin>>choice;
-    }
+		for(int i=0;i<100;i++)
 
-    cout<<"search"<<endl;
-    cin>>input;
-    search(input, p);
-    
-    return 0;
+			hashtable[i]=-1;
+
+
+		int total_miss=0;
+
+
+		for(int i=1;i<=num;i++)
+
+		{
+
+			int x=rand();
+
+			int miss=0;
+
+			int index=x%100;
+
+			int indi=index;
+
+			while(*(hashtable+index)!=-1)
+
+			{
+
+				miss++;
+
+				index++;
+
+				if(index==100)
+
+					index=0;
+
+			}
+
+			hashtable[index]=x;
+
+			total_miss+=miss;
+
+		}
+
+		batch_misses[num/20]=total_miss;
+
+	}
+
+
+	int a=0,b=0;
+
+	for(int i=1;i<=5;i++)
+
+	{
+
+		a+=batch_misses[i];
+
+		b+=batch_misses[i]*batch_misses[i];
+
+		cout<<"Number of misses for a batch of "<<i*20<<" elements: "<<batch_misses[i]<<endl;
+
+	}
+
+	float avg=(float)a/5;
+
+	cout<<"Average Miss: "<<avg<<"\n";
+
+	float var=(float)b/5-(avg*avg);
+
+	cout<<"Variance of Miss: "<<var<<"\n";
+
+	return 0;
+
 }
+
