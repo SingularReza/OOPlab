@@ -48,24 +48,22 @@ int main(int argc, char ** argv) {
   bcopy((char *)server->h_addr, (char *)&serveraddr.sin_addr.s_addr, server->h_length);
   serveraddr.sin_port = htons((unsigned short)portno);
 
-  //clientlen = sizeof(clientaddr);
-
     bzero(buf, 1024);
-		printf("please enter message: ");
-		fgets(buf, 1024, stdin);
+	printf("please enter message: ");
+	fgets(buf, 1024, stdin);
 
-		serverlen = sizeof(serveraddr);
+	serverlen = sizeof(serveraddr);
 
-		n = sendto(sockfd, buf, strlen(buf), 0, &serveraddr, serverlen);
+	n = sendto(sockfd, buf, strlen(buf), 0, &serveraddr, serverlen);
     if(n < 0) {
       error("ERROR in sendto");
     }
 		
-    n = recvfrom(sockfd, buf, strlen(buf), 0, &serveraddr, &serverlen);
+    n = recvfrom(sockfd, buf, 1024, 0, &serveraddr, &serverlen);
     if(n < 0) {
       error("ERROR in recvfrom");
     }
 
-   	printf("reply from server: %s", buf);
+   	printf("reply from server: %s length: %d\n", buf, strlen(buf));
 		return 0;
 }
